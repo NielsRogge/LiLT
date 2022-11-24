@@ -23,8 +23,8 @@ if __name__ == '__main__':
     with open(os.path.join(opt.out, 'config.json'), 'w') as jf:
         json.dump(config, jf, sort_keys=True, indent=2, separators=(',', ': '),)
    
-    text_model = torch.load(opt.text)
+    text_model = torch.load(opt.text, map_location="cpu")
     text_model = {k.replace('roberta.', 'lilt.'): v for (k, v) in text_model.items()}
-    lilt_model = torch.load(opt.lilt)
+    lilt_model = torch.load(opt.lilt, map_location="cpu")
     total_model = {**text_model, **lilt_model}
     torch.save(total_model, os.path.join(opt.out, 'pytorch_model.bin'))
